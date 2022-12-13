@@ -591,6 +591,8 @@ func (w *Watcher) Start(d time.Duration) error {
 				numEvents++
 				if w.maxEvents > 0 && numEvents > w.maxEvents {
 					close(cancel)
+					// stop pollEvents goroutine
+					<-done
 					break inner
 				}
 				w.Event <- event
